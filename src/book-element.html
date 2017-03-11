@@ -1,15 +1,36 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-styles/element-styles/paper-material.html">
 
 <dom-module id="book-element">
     <template>
-        <div>
-            Image
-        </div>
-        <div>
-            Description
-        </div>
-        <div>
-            Stars
+        <style>
+            .book-cover{
+                float: left;
+                display: inline-block;
+                background-image: url(../images/mythical-man-month.jpg);
+                height: 100px;
+                width: 100px;
+            }
+
+            .book-description{
+                /*float: left;*/
+                display: inline-block;
+            }
+
+            .book-wrapper{
+                position: relative;
+            }
+        </style>
+        <div class="book-wrapper">
+            <div class="book-cover">
+                <!--<img src="../images/mythical-man-month.jpg">-->
+            </div>
+            <div class="book-description">
+                Description
+            </div>
+            <div>
+                Stars
+            </div>
         </div>
     </template>
 

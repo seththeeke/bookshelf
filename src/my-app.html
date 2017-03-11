@@ -58,26 +58,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-weight: bold;
       }
 
-      .column{
-        display: inline-block;
-      }
-
       #leftColumn{
-        border-right: solid #ff0000;
-        min-height: 800px;
-        min-width: 250px;
+        border-right: solid black;
+        height: 799px; /*approx height of page*/
+        width: 15%;
         text-align: center;
+        display: inline-block;
+        /*background-color: blue;*/
+        float: left;
       }
 
       #rightColumn{
-        max-height: 800px;
-        position: absolute;
+        max-height: 799px;
+        width: 84%;
+        background-color: red;
+        float: left;
+        display: inline-block;
+        overflow-y: scroll;
       }
 
       #image{
         border: solid black;
         border-radius: 60px;
-        box-shadow: 10px 10px 5px #888888;
+        /*box-shadow: 10px 10px 5px #888888;*/
         min-height: 115px;
         min-width: 113px;
         margin-top: 10px;
@@ -87,6 +90,75 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       #imageContainer{
         text-align: center;
       }
+
+      .page{
+        width: 100%;
+        height: 100%;
+      }
+
+        .title{
+            text-align: center;
+        }
+
+        .line{
+            width: 60%;
+            border-color: black;
+        }
+
+        .bookshelf{
+            padding: 20px;
+        }
+
+        .book-summary{
+            float: left;
+            padding-left: 10px;
+        }
+
+        .book-title{
+            margin: 0;
+        }
+
+        .book-description{
+
+        }
+
+        .book-cover{
+            float: left;
+            height: 125px;
+            width: auto;
+        }
+
+        .bookshelf-item{
+            display: inline-block;
+            padding: 0 20px;
+        }
+
+        #image{
+            background-image: url(../images/me.jpg);
+            background-size: 100%;
+        }
+
+        .currently-reading-book-cover{
+            height: 50px;
+            width: auto;
+        }
+
+        .on-deck-reading-item{
+            padding-left: 10px;
+        }
+
+        .on-deck-title{
+            display: block;
+            font-size: 10px;
+            text-align: left;
+        }
+
+        .on-deck-author{
+            display: block;
+            font-size: 7px;
+            color: grey;
+            text-align: left;
+        }
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -96,51 +168,53 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
-    <!--<app-drawer-layout fullbleed>-->
-      <!-- Drawer content -->
-      <!--<app-drawer id="drawer">-->
-        <!--<app-toolbar>Menu</app-toolbar>-->
         <iron-selector hidden selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <!--<a name="view1" href="/view1">View One</a>-->
-          <!--<a name="view2" href="/view2">View Two</a>-->
-          <!--<a name="view3" href="/view3">View Three</a>-->
           <a name="bookshelf" href="/bookshelf">Bookshelf</a>
         </iron-selector>
-      <!--</app-drawer>-->
-
-      <!-- Main content -->
-      <!--<app-header-layout has-scrolling-region>-->
-
-        <!--<app-header condenses reveals effects="waterfall">-->
-          <!--<app-toolbar>-->
-            <!--<paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>-->
-            <!--<div main-title>Seth's Bookshelf</div>-->
-          <!--</app-toolbar>-->
-        <!--</app-header>-->
 
         <iron-pages
             selected="[[page]]"
             attr-for-selected="name"
             fallback-selection="bookshelf"
             role="main">
-          <!--<my-view1 name="view1"></my-view1>-->
-          <!--<my-view2 name="view2"></my-view2>-->
-          <!--<my-view3 name="view3"></my-view3>-->
           <my-view404 name="view404"></my-view404>
-          <div name="bookshelf">
-            <div id="leftColumn" class="column">
+          <div name="bookshelf" class="page">
+            <div id="leftColumn">
               <div id="imageContainer">
-                <div id="image">My Image</div>
+                <div id="image"></div>
               </div>
-              <div>Seth's Bookshelf</div>
+              <div>Currently Reading
+                  <div class="currently-reading-item">
+                      <img src="../images/faster-higher-stronger.jpg" class="currently-reading-book-cover">
+                  </div>
+              </div>
+              <div class="on-deck">On Deck
+                  <template is="dom-repeat" items="[[onDeck]]" as="book">
+                      <div class="on-deck-reading-item">
+                          <span class="on-deck-title">[[book.title]]</span>
+                          <span class="on-deck-author">by [[book.author]]</span>
+                      </div>
+                  </template>
+              </div>
             </div>
-            <div id="rightColumn" class="column">
-              <book-shelf></book-shelf>
+            <div id="rightColumn">
+                <h1 class="title">Seth's Bookshelf</h1>
+                <hr class="line">
+                <div class="bookshelf">
+                    <template is="dom-repeat" items="[[books]]" as="book">
+                        <div class="bookshelf-item">
+                            <img src="../images/mythical-man-month.jpg" class="book-cover">
+                            <div class="book-summary">
+                                <h3 class="book-title">The Mythical Man-Month</h3>
+                                <p class="book-description">Description and Review</p>
+                                <div class="rating">Stars</div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
             </div>
           </div>
         </iron-pages>
-      <!--</app-header-layout>-->
-    <!--</app-drawer-layout>-->
   </template>
 
   <script>
@@ -153,6 +227,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           reflectToAttribute: true,
           observer: '_pageChanged',
         },
+
+          books:{
+              type: Array,
+              value: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
+          },
+
+          currentlyReading:{
+              type: Array,
+              value: []
+          },
+
+          onDeck:{
+              type: Array,
+              value: [
+                  {
+                      "title": "The Marshmallow Test",
+                      "author": "Walter Mischel"
+                  },
+                  {
+                      "title": "Creativity, Inc.",
+                      "author": "Amy Wallace and Edwin Catmull"
+                  },
+                  {
+                      "title": "The Pragmatic Programmer",
+                      "author": "Andy Hunt and Dave Thomas"
+                  },
+                  {
+                      "title": "Don't Make Me Think",
+                      "author": "Steve Krug"
+                  }
+              ]
+          }
       },
 
       observers: [
@@ -177,7 +283,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _showPage404: function() {
         this.page = 'view404';
-      },
+      }
     });
   </script>
 </dom-module>
