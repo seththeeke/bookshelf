@@ -21,7 +21,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="my-icons.html">
-<link rel="import" href="bookshelf.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 
 <dom-module id="my-app">
   <template>
@@ -64,17 +64,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 15%;
         text-align: center;
         display: inline-block;
-        /*background-color: blue;*/
+          background-color: #e4e0dc;
+          background: linear-gradient(#e4e0dc, white);
         float: left;
       }
 
       #rightColumn{
-        max-height: 799px;
+        height: 799px;
         width: 84%;
-        background-color: red;
+        background-color: #e4e0dc;
+        background: linear-gradient(#e4e0dc, white);
         float: left;
         display: inline-block;
         overflow-y: scroll;
+          text-align: center;
       }
 
       #image{
@@ -98,11 +101,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         .title{
             text-align: center;
-        }
-
-        .line{
+            margin-bottom:0;
+            display: inline-block;
             width: 60%;
-            border-color: black;
+            border-bottom: solid 0.5px black;
         }
 
         .bookshelf{
@@ -111,7 +113,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         .book-summary{
             float: left;
-            padding-left: 10px;
+            padding-left: 20px;
+            max-width: 75%;
         }
 
         .book-title{
@@ -119,18 +122,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
 
         .book-description{
-
+            font-size: 13px;
+            margin:0;
         }
 
         .book-cover{
             float: left;
-            height: 125px;
+            height: 160px;
             width: auto;
+            padding-top: 31px;
         }
 
         .bookshelf-item{
             display: inline-block;
             padding: 0 20px;
+            max-width: 45%;
+            background-color: #efefef;
+            box-shadow: 0 1px 2px black;
+            transition: box-shadow 0.3s ease-in-out;
+            text-align: left;
+        }
+
+        .bookshelf-item:hover{
+            box-shadow: 0 5px 15px black;
+            cursor: pointer;
         }
 
         #image{
@@ -138,9 +153,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             background-size: 100%;
         }
 
+      .currently-reading{
+          font-size: 23px;
+          padding-bottom: 10px;
+      }
+
         .currently-reading-book-cover{
-            height: 50px;
+            height: 130px;
             width: auto;
+            cursor: pointer;
+        }
+
+        .on-deck{
+            font-size: 20px;
         }
 
         .on-deck-reading-item{
@@ -149,15 +174,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         .on-deck-title{
             display: block;
-            font-size: 10px;
+            font-size: 0.7em;
             text-align: left;
         }
 
         .on-deck-author{
             display: block;
-            font-size: 7px;
+            font-size: 0.4em;
             color: grey;
             text-align: left;
+        }
+
+        .rating{
+            display: inline-block;
+        }
+
+      .icons{
+          padding: 5px;
+          text-align: center;
+      }
+
+        a{
+            text-decoration: none;
         }
     </style>
 
@@ -183,10 +221,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <div id="imageContainer">
                 <div id="image"></div>
               </div>
-              <div>Currently Reading
-                  <div class="currently-reading-item">
-                      <img src="../images/faster-higher-stronger.jpg" class="currently-reading-book-cover">
-                  </div>
+                <div class="icons">
+                    <a href="https://twitter.com/Theekenator">
+                        <img class="icon" src="../images/twitter.svg" alt="Twitter" height="20" width="20">
+                    </a>
+                    <a href="https://www.linkedin.com/in/sptheeke">
+                        <img class="icon" src="../images/linkedin.svg" alt="LinkedIn" height="20" width="20">
+                    </a>
+                </div>
+              <div class="currently-reading">Currently Reading
+                  <template is="dom-repeat" items="[[currentlyReading]]" as="book">
+                      <div class="currently-reading-item">
+                          <img src="[[book.cover]]" class="currently-reading-book-cover">
+                      </div>
+                  </template>
               </div>
               <div class="on-deck">On Deck
                   <template is="dom-repeat" items="[[onDeck]]" as="book">
@@ -199,15 +247,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
             <div id="rightColumn">
                 <h1 class="title">Seth's Bookshelf</h1>
-                <hr class="line">
                 <div class="bookshelf">
                     <template is="dom-repeat" items="[[books]]" as="book">
                         <div class="bookshelf-item">
-                            <img src="../images/mythical-man-month.jpg" class="book-cover">
+                            <img src="[[book.cover]]" class="book-cover">
                             <div class="book-summary">
-                                <h3 class="book-title">The Mythical Man-Month</h3>
-                                <p class="book-description">Description and Review</p>
-                                <div class="rating">Stars</div>
+                                <h3 class="book-title">[[book.title]]</h3>
+                                <p class="book-description">[[book.description]] [[book.review]]</p>
+                                <template is="dom-repeat" items="[[book.rating]]">
+                                    <div class="rating">*</div>
+                                </template>
                             </div>
                         </div>
                     </template>
@@ -230,12 +279,81 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           books:{
               type: Array,
-              value: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}]
+              value: [
+                  {
+                      "cover": "../images/mythical-man-month.jpg",
+                      "title": "The Mythical Man-Month",
+                      "genre": "Software Engineering Management",
+                      "description": "The Mythical Man-Month brings to light all the fundamental problems with producing quality software on time, the various ways to solve those problems, and goes into depth about how some of those problems will never be solved.",
+                      "review": "I read this book because I thought it was something I had to do since I was a Software Engineer. As I read, I became more and more disinterested because I felt like I was reading things I had already learned in the workplace. This book is best kept to those who haven't gained much experience as a software engineer.",
+                      "rating": ["star", "star", "star"]
+                  },
+                  {
+                      "cover": "../images/mythical-man-month.jpg",
+                      "title": "The Mythical Man-Month",
+                      "genre": "Software Engineering Management",
+                      "description": "The Mythical Man-Month brings to light all the fundamental problems with producing quality software on time, the various ways to solve those problems, and goes into depth about how some of those problems will never be solved.",
+                      "review": "I read this book because I thought it was something I had to do since I was a Software Engineer. As I read, I became more and more disinterested because I felt like I was reading things I had already learned in the workplace. This book is best kept to those who haven't gained much experience as a software engineer.",
+                      "rating": ["star", "star", "star"]
+                  },
+                  {
+                      "cover": "../images/mythical-man-month.jpg",
+                      "title": "The Mythical Man-Month",
+                      "genre": "Software Engineering Management",
+                      "description": "The Mythical Man-Month brings to light all the fundamental problems with producing quality software on time, the various ways to solve those problems, and goes into depth about how some of those problems will never be solved.",
+                      "review": "I read this book because I thought it was something I had to do since I was a Software Engineer. As I read, I became more and more disinterested because I felt like I was reading things I had already learned in the workplace. This book is best kept to those who haven't gained much experience as a software engineer.",
+                      "rating": ["star", "star", "star"]
+                  },
+                  {
+                      "cover": "../images/mythical-man-month.jpg",
+                      "title": "The Mythical Man-Month",
+                      "genre": "Software Engineering Management",
+                      "description": "The Mythical Man-Month brings to light all the fundamental problems with producing quality software on time, the various ways to solve those problems, and goes into depth about how some of those problems will never be solved.",
+                      "review": "I read this book because I thought it was something I had to do since I was a Software Engineer. As I read, I became more and more disinterested because I felt like I was reading things I had already learned in the workplace. This book is best kept to those who haven't gained much experience as a software engineer.",
+                      "rating": ["star", "star", "star"]
+                  },
+                  {
+                      "cover": "../images/mythical-man-month.jpg",
+                      "title": "The Mythical Man-Month",
+                      "genre": "Software Engineering Management",
+                      "description": "The Mythical Man-Month brings to light all the fundamental problems with producing quality software on time, the various ways to solve those problems, and goes into depth about how some of those problems will never be solved.",
+                      "review": "I read this book because I thought it was something I had to do since I was a Software Engineer. As I read, I became more and more disinterested because I felt like I was reading things I had already learned in the workplace. This book is best kept to those who haven't gained much experience as a software engineer.",
+                      "rating": ["star", "star", "star"]
+                  },
+                  {
+                      "cover": "../images/mythical-man-month.jpg",
+                      "title": "The Mythical Man-Month",
+                      "genre": "Software Engineering Management",
+                      "description": "The Mythical Man-Month brings to light all the fundamental problems with producing quality software on time, the various ways to solve those problems, and goes into depth about how some of those problems will never be solved.",
+                      "review": "I read this book because I thought it was something I had to do since I was a Software Engineer. As I read, I became more and more disinterested because I felt like I was reading things I had already learned in the workplace. This book is best kept to those who haven't gained much experience as a software engineer.",
+                      "rating": ["star", "star", "star"]
+                  },
+                  {
+                      "cover": "../images/mythical-man-month.jpg",
+                      "title": "The Mythical Man-Month",
+                      "genre": "Software Engineering Management",
+                      "description": "The Mythical Man-Month brings to light all the fundamental problems with producing quality software on time, the various ways to solve those problems, and goes into depth about how some of those problems will never be solved.",
+                      "review": "I read this book because I thought it was something I had to do since I was a Software Engineer. As I read, I became more and more disinterested because I felt like I was reading things I had already learned in the workplace. This book is best kept to those who haven't gained much experience as a software engineer.",
+                      "rating": ["star", "star", "star"]
+                  },
+                  {
+                      "cover": "../images/mythical-man-month.jpg",
+                      "title": "The Mythical Man-Month",
+                      "genre": "Software Engineering Management",
+                      "description": "The Mythical Man-Month brings to light all the fundamental problems with producing quality software on time, the various ways to solve those problems, and goes into depth about how some of those problems will never be solved.",
+                      "review": "I read this book because I thought it was something I had to do since I was a Software Engineer. As I read, I became more and more disinterested because I felt like I was reading things I had already learned in the workplace. This book is best kept to those who haven't gained much experience as a software engineer.",
+                      "rating": ["star", "star", "star"]
+                  },
+              ]
           },
 
           currentlyReading:{
               type: Array,
-              value: []
+              value: [
+                  {
+                      "cover":"../images/faster-higher-stronger.jpg"
+                  }
+              ]
           },
 
           onDeck:{
