@@ -248,9 +248,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div id="rightColumn">
                 <h1 class="title">Seth's Bookshelf</h1>
                 <div class="bookshelf">
-                    <template is="dom-repeat" items="[[books]]" as="book">
+                    <template is="dom-repeat" items="{{books}}" as="book">
                         <div class="bookshelf-item">
-                            <img src="[[book.cover]]" class="book-cover">
+                            <img src="{{book.cover}}" class="book-cover">
                             <div class="book-summary">
                                 <h3 class="book-title">[[book.title]]</h3>
                                 <p class="book-description">[[book.description]] [[book.review]]</p>
