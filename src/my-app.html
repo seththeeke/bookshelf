@@ -1,104 +1,78 @@
-<!--
-@license
-Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
-<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
-<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
-<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
-<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
-<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="my-icons.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../images/faster-higher-stronger.jpg">
 
 <dom-module id="my-app">
-  <template>
+<template>
     <style>
-      :host {
-        --app-primary-color: #4285f4;
-        --app-secondary-color: black;
+        :host {
+            --app-primary-color: #4285f4;
+            --app-secondary-color: black;
 
-        display: block;
-      }
+            display: block;
+        }
 
-      app-header {
-        color: #fff;
-        background-color: var(--app-primary-color);
-      }
-      app-header paper-icon-button {
-        --paper-icon-button-ink-color: white;
-      }
+        .drawer-list {
+            margin: 0 20px;
+        }
 
-      .drawer-list {
-        margin: 0 20px;
-      }
+        .drawer-list a {
+            display: block;
+            padding: 0 16px;
+            text-decoration: none;
+            color: var(--app-secondary-color);
+            line-height: 40px;
+        }
 
-      .drawer-list a {
-        display: block;
-        padding: 0 16px;
-        text-decoration: none;
-        color: var(--app-secondary-color);
-        line-height: 40px;
-      }
+        .drawer-list a.iron-selected {
+            color: black;
+            font-weight: bold;
+        }
 
-      .drawer-list a.iron-selected {
-        color: black;
-        font-weight: bold;
-      }
+        #leftColumn{
+            border-right: solid black;
+            height: 799px; /*approx height of page*/
+            width: 15%;
+            text-align: center;
+            display: inline-block;
+            background-color: #e4e0dc;
+            background: linear-gradient(#e4e0dc, white);
+            float: left;
+        }
 
-      #leftColumn{
-        border-right: solid black;
-        height: 799px; /*approx height of page*/
-        width: 15%;
-        text-align: center;
-        display: inline-block;
-          background-color: #e4e0dc;
-          background: linear-gradient(#e4e0dc, white);
-        float: left;
-      }
+        #rightColumn{
+            height: 799px;
+            width: 84%;
+            background-color: #e4e0dc;
+            background: linear-gradient(#e4e0dc, white);
+            float: left;
+            display: inline-block;
+            overflow-y: scroll;
+            text-align: center;
+        }
 
-      #rightColumn{
-        height: 799px;
-        width: 84%;
-        background-color: #e4e0dc;
-        background: linear-gradient(#e4e0dc, white);
-        float: left;
-        display: inline-block;
-        overflow-y: scroll;
-          text-align: center;
-      }
+        #image{
+            border: solid black;
+            border-radius: 60px;
+            min-height: 115px;
+            min-width: 113px;
+            margin-top: 10px;
+            display: inline-block;
+        }
 
-      #image{
-        border: solid black;
-        border-radius: 60px;
-        /*box-shadow: 10px 10px 5px #888888;*/
-        min-height: 115px;
-        min-width: 113px;
-        margin-top: 10px;
-        display: inline-block;
-      }
+        #imageContainer{
+            text-align: center;
+        }
 
-      #imageContainer{
-        text-align: center;
-      }
-
-      .page{
-        width: 100%;
-        height: 100%;
-      }
+        .page{
+            width: 100%;
+            height: 100%;
+        }
 
         .title{
             text-align: center;
@@ -114,8 +88,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         .book-summary{
             float: left;
-            padding-left: 20px;
             max-width: 75%;
+            padding: 10px 0 10px 20px;
         }
 
         .book-title{
@@ -154,10 +128,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             background-size: 100%;
         }
 
-      .currently-reading{
-          font-size: 23px;
-          padding-bottom: 10px;
-      }
+        .currently-reading{
+            font-size: 23px;
+            padding-bottom: 10px;
+        }
 
         .currently-reading-book-cover{
             height: 130px;
@@ -190,13 +164,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             display: inline-block;
         }
 
-      .icons{
-          padding: 5px;
-          text-align: center;
-      }
+        .icons{
+            padding: 5px;
+            text-align: center;
+        }
 
         a{
             text-decoration: none;
+        }
+
+        iron-icon{
+            color: gold;
         }
     </style>
 
@@ -207,65 +185,65 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         data="{{routeData}}"
         tail="{{subroute}}"></app-route>
 
-        <iron-selector hidden selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="bookshelf" href="/bookshelf">Bookshelf</a>
-        </iron-selector>
+    <iron-selector hidden selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
+      <a name="bookshelf" href="/bookshelf">Bookshelf</a>
+    </iron-selector>
 
-        <iron-pages
-            selected="[[page]]"
-            attr-for-selected="name"
-            fallback-selection="bookshelf"
-            role="main">
-          <my-view404 name="view404"></my-view404>
-          <div name="bookshelf" class="page">
-            <div id="leftColumn">
-              <div id="imageContainer">
-                <div id="image"></div>
-              </div>
-                <div class="icons">
-                    <a href="https://twitter.com/Theekenator">
-                        <img class="icon" src="../images/twitter.svg" alt="Twitter" height="20" width="20">
-                    </a>
-                    <a href="https://www.linkedin.com/in/sptheeke">
-                        <img class="icon" src="../images/linkedin.svg" alt="LinkedIn" height="20" width="20">
-                    </a>
-                </div>
-              <div class="currently-reading">Currently Reading
-                  <template is="dom-repeat" items="[[currentlyReading]]" as="book">
-                      <div class="currently-reading-item">
-                          <img src="[[book.cover]]" class="currently-reading-book-cover">
-                      </div>
-                  </template>
-              </div>
-              <div class="on-deck">On Deck
-                  <template is="dom-repeat" items="[[onDeck]]" as="book">
-                      <div class="on-deck-reading-item">
-                          <span class="on-deck-title">[[book.title]]</span>
-                          <span class="on-deck-author">by [[book.author]]</span>
-                      </div>
-                  </template>
-              </div>
-            </div>
-            <div id="rightColumn">
-                <h1 class="title">Seth's Bookshelf</h1>
-                <div class="bookshelf">
-                    <template is="dom-repeat" items="{{books}}" as="book">
-                        <div class="bookshelf-item">
-                            <img src="{{book.cover}}" class="book-cover">
-                            <div class="book-summary">
-                                <h3 class="book-title">[[book.title]]</h3>
-                                <p class="book-description">[[book.description]] [[book.review]]</p>
-                                <template is="dom-repeat" items="[[book.rating]]">
-                                    <div class="rating">*</div>
-                                </template>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-            </div>
+    <iron-pages
+        selected="[[page]]"
+        attr-for-selected="name"
+        fallback-selection="bookshelf"
+        role="main">
+      <my-view404 name="view404"></my-view404>
+      <div name="bookshelf" class="page">
+        <div id="leftColumn">
+          <div id="imageContainer">
+            <div id="image"></div>
           </div>
-        </iron-pages>
-  </template>
+            <div class="icons">
+                <a href="https://twitter.com/Theekenator">
+                    <img class="icon" src="../images/twitter.svg" alt="Twitter" height="20" width="20">
+                </a>
+                <a href="https://www.linkedin.com/in/sptheeke">
+                    <img class="icon" src="../images/linkedin.svg" alt="LinkedIn" height="20" width="20">
+                </a>
+            </div>
+          <div class="currently-reading">Currently Reading
+              <template is="dom-repeat" items="[[currentlyReading]]" as="book">
+                  <div class="currently-reading-item">
+                      <img src="[[book.cover]]" class="currently-reading-book-cover">
+                  </div>
+              </template>
+          </div>
+          <div class="on-deck">On Deck
+              <template is="dom-repeat" items="[[onDeck]]" as="book">
+                  <div class="on-deck-reading-item">
+                      <span class="on-deck-title">[[book.title]]</span>
+                      <span class="on-deck-author">by [[book.author]]</span>
+                  </div>
+              </template>
+          </div>
+        </div>
+        <div id="rightColumn">
+            <h1 class="title">Seth's Bookshelf</h1>
+            <div class="bookshelf">
+                <template is="dom-repeat" items="{{books}}" as="book">
+                    <div class="bookshelf-item">
+                        <img src="{{book.cover}}" class="book-cover">
+                        <div class="book-summary">
+                            <h3 class="book-title">[[book.title]]</h3>
+                            <p class="book-description">[[book.description]] [[book.review]]</p>
+                            <template is="dom-repeat" items="[[book.rating]]">
+                                <iron-icon icon="icons:star"></iron-icon>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+      </div>
+    </iron-pages>
+</template>
 
   <script>
     Polymer({
@@ -275,7 +253,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         page: {
           type: String,
           reflectToAttribute: true,
-          observer: '_pageChanged',
+          observer: '_pageChanged'
         },
 
           books:{
@@ -324,21 +302,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
       },
 
-      observers: [
-        '_routePageChanged(routeData.page)',
-      ],
-
-      _routePageChanged: function(page) {
-//        this.page = page || 'view1';
-//
-//        if (!this.$.drawer.persistent) {
-//          this.$.drawer.close();
-//        }
-      },
-
       _pageChanged: function(page) {
         if (page !== "bookshelf") {
-          // Load page import on demand. Show 404 page if fails
+          // path here is used to ensure proper resolving of path on github page
           var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
           this.importHref(resolvedPageUrl, null, this._showPage404, true);
         }
@@ -346,8 +312,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _showPage404: function() {
         this.page = 'view404';
-      },
-
+      }
     });
   </script>
 </dom-module>
