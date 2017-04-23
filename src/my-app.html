@@ -4,11 +4,9 @@
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
-<<<<<<< HEAD
-=======
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../images/faster-higher-stronger.jpg">
->>>>>>> dev
+<link rel="import" href="powered-by-component.html">
 
 <dom-module id="my-app">
 <template>
@@ -55,7 +53,7 @@
             background: linear-gradient(#e4e0dc, white);
             float: left;
             display: inline-block;
-            overflow-y: scroll;
+            /*overflow-y: scroll;*/
             text-align: center;
         }
 
@@ -199,6 +197,7 @@
         role="main">
       <my-view404 name="view404"></my-view404>
       <div name="bookshelf" class="page">
+        <powered-by-component></powered-by-component>
         <div id="leftColumn">
           <div id="imageContainer">
             <div id="image"></div>

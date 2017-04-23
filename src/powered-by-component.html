@@ -1,0 +1,48 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="powered-by-component">
+    <template>
+        <style>
+            .power-by-text{
+                display: inline-block;
+                color: black;
+                font-size: 13px;
+            }
+
+            .wrapper{
+                display:inline-block;
+                vertical-align: middle;
+            }
+
+            .powered-by-block{
+                position: absolute;
+                right: 0;
+                top: 0;
+                padding-right: 15px;
+            }
+
+            .app-logo {
+                height: 30px;
+            }
+        </style>
+
+        <div class="powered-by-block">
+            <div class="wrapper">
+                <img src="../images/polymer.ico" class="App-logo" alt="logo" />
+            </div>
+            <div class="wrapper">
+                <p class="power-by-text">Powered By Polymer</p>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'powered-by-component',
+
+            properties: {
+            },
+
+        });
+    </script>
+</dom-module>
