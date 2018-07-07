@@ -14,8 +14,12 @@
         :host {
             --app-primary-color: #4285f4;
             --app-secondary-color: black;
-
             display: block;
+        }
+
+        body {
+          background-color: #e4e0dc;
+          background: linear-gradient(#e4e0dc, white);
         }
 
         .drawer-list {
@@ -41,19 +45,14 @@
             width: 15%;
             text-align: center;
             display: inline-block;
-            background-color: #e4e0dc;
-            background: linear-gradient(#e4e0dc, white);
             float: left;
         }
 
         #rightColumn{
             height: 799px;
             width: 84%;
-            background-color: #e4e0dc;
-            background: linear-gradient(#e4e0dc, white);
             float: left;
             display: inline-block;
-            /*overflow-y: scroll;*/
             text-align: center;
         }
 
@@ -105,7 +104,7 @@
         .book-cover{
             float: left;
             height: 160px;
-            width: auto;
+            width: 105px;
             padding-top: 31px;
         }
 
@@ -163,6 +162,7 @@
 
         .rating{
             display: inline-block;
+
         }
 
         .icons{
@@ -176,6 +176,7 @@
 
         iron-icon{
             color: gold;
+            --iron-icon-stroke-color: black;
         }
     </style>
 
@@ -227,7 +228,9 @@
           </div>
         </div>
         <div id="rightColumn">
-            <h1 class="title">Seth's Bookshelf</h1>
+            <h1 class="title">
+              Seth's Bookshelf
+            </h1>
             <div class="bookshelf">
                 <template is="dom-repeat" items="{{books}}" as="book">
                     <div class="bookshelf-item">
@@ -264,7 +267,7 @@
                   {
                       "cover": "images/mythical-man-month.jpg",
                       "title": "The Mythical Man-Month",
-                      "genre": "Software Engineering Management",
+                      "genre": "Software Engineering",
                       "description": "The Mythical Man-Month brings to light all the fundamental problems with producing quality software on time, the various ways to solve those problems, and goes into depth about how some of those problems will never be solved.",
                       "review": "I read this book because I thought it was something I had to do since I was a Software Engineer. As I read, I became more and more disinterested because I felt like I was reading things I had already learned in the workplace. This book is best kept to those who haven't gained much experience as a software engineer.",
                       "rating": ["star", "star", "star"]
@@ -276,6 +279,14 @@
                       "description": "Faster Higher Stronger tells the story about how we as humans have evolved into the super athletes that we've become. It goes in depth into proper diet, exercise, how equipment effects our performance, recovery, and ultimately how winners are born.",
                       "review": "It's fascinating to see the progression of athletes over time and all the research behind the little things that add up to big change. The author does an incredible job finding tons of sources from across the planet to display the amazing feats that humans have done and how they've been able to accomplish them.",
                       "rating": ["star", "star", "star", "star"]
+                  },
+                  {
+                      "cover": "images/production-ready-microservices.jpg",
+                      "title": "Production Ready Microservices",
+                      "genre": "Software Engineering",
+                      "description": "Production Ready Microservices is an guide for all things to be prepared for when moving to a microservice based architecture. Topics include monitoring, logging, CI/CD, software management, and others.",
+                      "review": "It is most helpful as both a checklist and a guide. Susan Fowler is an experienced engineer and put a lot of content that could be valuable not just for microservice architecture but for any software development practices.",
+                      "rating": ["star", "star", "star", "star", "star"]
                   }
               ]
           },
@@ -284,7 +295,10 @@
               type: Array,
               value: [
                   {
-                      "cover":"images/creativity-inc.jpg"
+                      "cover":"images/talking-with-tech-leads.png"
+                  },
+                  {
+                      "cover":"images/cracking-the-coding-interview.jpg"
                   }
               ]
           },
@@ -292,6 +306,10 @@
           onDeck:{
               type: Array,
               value: [
+                  { 
+                      "title": "Creativity Inc.",
+                      "author": "Ed Catmull"
+                  },
                   {
                       "title": "The Marshmallow Test",
                       "author": "Walter Mischel"
